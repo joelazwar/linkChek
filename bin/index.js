@@ -21,7 +21,7 @@ const options = yargs
 function linkCheck(link) {
 
     if (link.match(regEx)) {
-        fetch(options.file)
+        fetch(link)
             .then(response => response.text())
             .then(data => htmlVerify(data))
             .catch(err=> console.log(err));
