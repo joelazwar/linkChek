@@ -1,12 +1,29 @@
 # linkChek
 
-CLI tool to check links from a file
+CLI tool to check links from a html file or url
 
-How to Use
+### Install
 
-- npm install -g <https://github.com/joelazwar/linkChek>
-- linkChek -l [Filename or Webpage URL] 
+```
+npm install -g <https://github.com/joelazwar/linkChek>
+```
 
-or
+### How to use
 
-- linkChek -v (for Version Number)
+```
+- linkChek -l [Filename or Webpage URL]
+```
+
+![GIF PREVIEW](assets/filepreview.gif)
+
+![GIF PREVIEW](assets/htmlpreview.gif)
+
+Version Number
+
+```
+linkChek -v
+```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
