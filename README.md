@@ -18,7 +18,13 @@ npm install -g <https://github.com/joelazwar/linkChek>
 
 ![GIF PREVIEW](assets/htmlpreview.gif)
 
-Version Number
+### HTTP Responses
+
+* [GOOD] HTTP Response Code 200 - Success
+* [BAD] HTTP Response Code 400/404 - Bad Request/Not Found
+* [UNKNOWN] HTTP Response Code 3XX/5XX/etc. - Other Response (Redirect, Server Error, etc.)
+
+### Version Number
 
 ```
 linkChek -v
