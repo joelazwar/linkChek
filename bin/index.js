@@ -9,7 +9,7 @@ const regEx = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1
 
 const options = yargs
     .scriptName("linkChek")
-    .usage("Usage: $0 -l <html-link>")
+    .usage("Usage: $0 -l <html-link/html-file>")
     .option("l", {
         alias: "link",
         describe: "Your HTML file/link",
