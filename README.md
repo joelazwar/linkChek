@@ -5,7 +5,7 @@ CLI tool to check links from a file
 How to Use
 
 - npm install -g <https://github.com/joelazwar/linkChek>
-- linkChek -u [Filename]
+- linkChek -l [Filename or Webpage URL] 
 
 or
 
