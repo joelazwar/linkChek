@@ -5,7 +5,7 @@ const yargs = require("yargs");
 const fetch = require("node-fetch");
 const fs = require("fs");
 
-var regEx = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,25}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g
+const regEx = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,25}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g
 
 
 const options = yargs
@@ -22,12 +22,12 @@ const options = yargs
 function linkCheck(link) {
 
     
-    var fileData = fs.readFile(link, 'utf8', data = (err, data) => {
+    let fileData = fs.readFile(link, 'utf8', data = (err, data) => {
         if (err) {
             console.error(err);
             return;
         }
-        var urls = data.match(regEx); //compile all links, using regex, into an Array
+        let urls = data.match(regEx); //compile all links, using regex, into an Array
 
         urls = Array.from(new Set(urls)); //Eliminating duplicate links
 
@@ -37,7 +37,7 @@ function linkCheck(link) {
 }
 
 function htmlVerify(urls){
-    var count = 0;
+    let count = 0;
 
     urls.forEach(url=>{
         fetch(url, {method: 'HEAD'})
