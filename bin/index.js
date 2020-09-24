@@ -5,7 +5,6 @@ const yargs = require("yargs");
 const fetch = require("node-fetch");
 const fs = require("fs");
 const { version } = require("../package.json");
-const { argv } = require("process");
 
 const regEx = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,25}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g
 
