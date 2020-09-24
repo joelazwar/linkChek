@@ -11,7 +11,7 @@ npm install -g <https://github.com/joelazwar/linkChek>
 ### How to use
 
 ```
-- linkChek -l [Filename or Webpage (Absolute) URL]
+linkChek -l [Filename or Webpage (Absolute) URL]
 ```
 
 ![GIF PREVIEW](assets/filepreview.gif)
