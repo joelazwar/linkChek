@@ -30,6 +30,12 @@ linkChek -l [Filename or Webpage (Absolute) URL]
 linkChek -v
 ```
 
+### Help Option
+
+```
+linkChek -h
+```
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
