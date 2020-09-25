@@ -23,16 +23,16 @@ const options = yargs
     .version('version', 'Show version number & exit', "linkChek " + version)
     .argv;
 
-function linkCheck(link) {
+function linkCheck(link) {      //checks link/file for data in utf8/text
 
-    if (link.match(regEx)) {
+    if (link.match(regEx)) {        //checks if the given string is a URL
         fetch(link)
             .then(response => response.text())
             .then(data => htmlVerify(data))
             .catch(err=> console.log(err));
     } else {
-
-        fs.readFile(link, 'utf8', data = (err, data) => {
+        
+        fs.readFile(link, 'utf8', data = (err, data) => {     //if not it is assumed to be a file
             if (err) {
                 console.error(err);
                 return;
@@ -53,11 +53,11 @@ function htmlVerify(urls) {
 
     let count = 0;
 
-    urls.forEach(url => {
-        fetch(url, { method: 'HEAD' })
+    urls.forEach(url => {           //iterates through url Array
+        fetch(url, { method: 'HEAD' })      //sends HTTP head request to omit receiving the data from body
             .then(res => {
 
-                count++;
+                count++; //increments url index for presentation
 
                 process.stdout.write(count + ". ");
 
