@@ -54,24 +54,24 @@ function htmlVerify(urls) {
     let count = 0;
 
     urls.forEach(url => {           //iterates through url Array
+
+        count++; //increments url index for presentation
+
         fetch(url, { method: 'HEAD' })      //sends HTTP head request to omit receiving the data from body
             .then(res => {
 
-                count++; //increments url index for presentation
-
-                process.stdout.write(count + ". ");
+                process.stdout.write(count + ". "); 
 
                 if (res.status == 200) {
-                    console.log(chalk.green("[GOOD] — " + url));
+                    console.log(chalk.green("[GOOD] — " + url));            //good url output
                 } else if (res.status == 400 || res.status == 404) {
-                    console.log(chalk.red("[BAD] — " + url));
+                    console.log(chalk.red("[BAD] — " + url));               //bad url output
                 } else {
-                    console.log(chalk.grey("[UNKNOWN] — " + url));
+                    console.log(chalk.grey("[UNKNOWN] — " + url));          //unknown url output
                 }
             })
             .catch(() => {
-                count++;
-                console.log(count + ". " + chalk.grey("[UNKNOWN] — " + url));
+                console.log(count + ". " + chalk.grey("[UNKNOWN] — " + url));   //if fetch throws an err regarding the link, it results as unknown
             });
     })
 }
