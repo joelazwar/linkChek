@@ -17,6 +17,16 @@ const options = yargs
         type: "string",
         demandOption: true
     })
+    .option("o", {
+        alias: 'option',
+        describe: 'All urls will be changed to https',
+        type: 'boolean'
+    })
+    .option("t", {
+        alias: 'timeout',
+        describe: 'Provide ms for waiting for a request',
+        type: 'number'
+    })
     .alias('h', 'help')
     .help('help', 'Show usage information & exit')
     .alias('v', 'version')
@@ -29,9 +39,9 @@ function linkCheck(link) {      //checks link/file for data in utf8/text
         fetch(link)
             .then(response => response.text())
             .then(data => htmlVerify(data))
-            .catch(err=> console.log(err));
+            .catch(err => console.log(err));
     } else {
-        
+
         fs.readFile(link, 'utf8', data = (err, data) => {     //if not it is assumed to be a file
             if (err) {
                 console.error(err);
@@ -45,6 +55,15 @@ function linkCheck(link) {      //checks link/file for data in utf8/text
 
 }
 
+function withTimeout(ms, promise) {
+    return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            reject(new Error("timeout error"))
+        }, ms)
+        promise.then(resolve, reject)
+    })
+}
+
 function htmlVerify(urls) {
 
     urls = urls.match(regEx); //compile all links, using regex, into an Array
@@ -54,13 +73,15 @@ function htmlVerify(urls) {
     let count = 0;
 
     urls.forEach(url => {           //iterates through url Array
-
-        count++; //increments url index for presentation
-
-        fetch(url, { method: 'HEAD' })      //sends HTTP head request to omit receiving the data from body
+        const isHttps = options.option;
+        if (isHttps && !url.startsWith('https')) {
+            url = url.replace(/^http/, "https");
+        }
+        const timeout = options.timeout || 120000;
+        withTimeout(timeout, fetch(url, { method: 'HEAD', }))      //sends HTTP head request to omit receiving the data from body
             .then(res => {
-
-                process.stdout.write(count + ". "); 
+                count++; //increments url index for presentation
+                process.stdout.write(count + ". ");
 
                 if (res.status == 200) {
                     console.log(chalk.green("[GOOD] — " + url));            //good url output
@@ -70,11 +91,11 @@ function htmlVerify(urls) {
                     console.log(chalk.grey("[UNKNOWN] — " + url));          //unknown url output
                 }
             })
-            .catch(() => {
+            .catch((e) => {
+                count++;
                 console.log(count + ". " + chalk.grey("[UNKNOWN] — " + url));   //if fetch throws an err regarding the link, it results as unknown
             });
     })
 }
-
 
 linkCheck(options.link);

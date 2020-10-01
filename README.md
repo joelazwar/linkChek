@@ -13,6 +13,14 @@ npm install -g <https://github.com/joelazwar/linkChek>
 ```
 linkChek -l [Filename or Webpage (Absolute) URL]
 ```
+for check https urls
+```sh
+linkChek -l [Filename or Webpage (Absolute) URL] -o
+```
+for timeout, the default value is 120000 (ms)
+```sh
+linkChek -l [Filename or Webpage (Absolute) URL] -o -t 7000
+```
 
 ![GIF PREVIEW](assets/filepreview.gif)
 
