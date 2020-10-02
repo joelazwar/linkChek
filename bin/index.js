@@ -93,7 +93,11 @@ function htmlVerify(urls) {
             })
             .catch((e) => {
                 count++;
-                console.log(count + ". " + chalk.grey("[UNKNOWN] — " + url));   //if fetch throws an err regarding the link, it results as unknown
+                if (e.message === 'timeout error') {
+                    console.log(count + ". " + chalk.grey("[TIMEOUT] — " + url));
+                } else {
+                    console.log(count + ". " + chalk.grey("[UNKNOWN] — " + url));   //if fetch throws an err regarding the link, it results as unknown
+                }
             });
     })
 }
