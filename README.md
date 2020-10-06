@@ -13,11 +13,15 @@ npm install -g <https://github.com/joelazwar/linkChek>
 ```
 linkChek -l [Filename or Webpage (Absolute) URL]
 ```
+
 for check https urls
+
 ```sh
 linkChek -l [Filename or Webpage (Absolute) URL] -o
 ```
+
 for timeout, the default value is 120000 (ms)
+
 ```sh
 linkChek -l [Filename or Webpage (Absolute) URL] -o -t 7000
 ```
@@ -28,9 +32,9 @@ linkChek -l [Filename or Webpage (Absolute) URL] -o -t 7000
 
 ### HTTP Responses
 
-* [GOOD] HTTP Response Code 200 - Success
-* [BAD] HTTP Response Code 400/404 - Bad Request/Not Found
-* [UNKNOWN] HTTP Response Code 3XX/5XX/etc. - Other Response (Redirect, Server Error, etc.)
+- [GOOD] HTTP Response Code 200 - Success
+- [BAD] HTTP Response Code 400/404 - Bad Request/Not Found
+- [UNKNOWN] HTTP Response Code 3XX/5XX/etc. - Other Response (Redirect, Server Error, etc.)
 
 ### Version Number
 
