@@ -27,6 +27,11 @@ const options = yargs
         describe: 'Provide ms for waiting for a request',
         type: 'number'
     })
+    .option("j", {
+        alias: 'json',
+        describe: 'Provide JSON output',
+        type: 'boolean'
+    })
     .alias('h', 'help')
     .help('help', 'Show usage information & exit')
     .alias('v', 'version')
@@ -108,6 +113,10 @@ function htmlVerify(urls) {
                 console.log(chalk.grey("[UNKNOWN] — " + res.url));          //unknown url output
             }
         })
+
+        if(options.json)
+            console.log (res);
+            
     };
 
     const promises = urls.map(checkUrl);
