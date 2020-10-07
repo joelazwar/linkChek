@@ -55,51 +55,69 @@ function linkCheck(link) {      //checks link/file for data in utf8/text
 
 }
 
-function withTimeout(ms, promise) {
-    return new Promise(function (resolve, reject) {
-        setTimeout(function () {
-            reject(new Error("timeout error"))
-        }, ms)
-        promise.then(resolve, reject)
-    })
-}
-
 function htmlVerify(urls) {
 
     urls = urls.match(regEx); //compile all links, using regex, into an Array
 
     urls = Array.from(new Set(urls)); //Eliminating duplicate links
 
-    let count = 0;
+    if (options.timeout){
+        userTime = options.timeout
+    }
+    else {
+        userTime = 0;
+    }
 
     urls.forEach(url => {           //iterates through url Array
         const isHttps = options.option;
         if (isHttps && !url.startsWith('https')) {
             url = url.replace(/^http/, "https");
         }
-        const timeout = options.timeout || 120000;
-        withTimeout(timeout, fetch(url, { method: 'HEAD', }))      //sends HTTP head request to omit receiving the data from body
-            .then(res => {
-                count++; //increments url index for presentation
-                process.stdout.write(count + ". ");
+    });
+    
+    async function checkUrl(url) {
 
-                if (res.status == 200) {
-                    console.log(chalk.green("[GOOD] — " + url));            //good url output
-                } else if (res.status == 400 || res.status == 404) {
-                    console.log(chalk.red("[BAD] — " + url));               //bad url output
-                } else {
-                    console.log(chalk.grey("[UNKNOWN] — " + url));          //unknown url output
-                }
-            })
-            .catch((e) => {
-                count++;
-                if (e.message === 'timeout error') {
-                    console.log(count + ". " + chalk.grey("[TIMEOUT] — " + url));
-                } else {
-                    console.log(count + ". " + chalk.grey("[UNKNOWN] — " + url));   //if fetch throws an err regarding the link, it results as unknown
-                }
-            });
-    })
+        try {
+            const res = await fetch(url, { method: 'HEAD', timeout: userTime });     //sends HTTP head request to omit receiving the data from body
+            return {url, status: res.status} ;
+        } catch (err) {
+            if (err.type == 'request-timeout') {
+                return { url, status: -2 };
+            }
+            else {
+                return { url, status: -1 }
+            }
+        }
+    }
+
+    function linkOutput(res) {
+
+        let count = 0;
+
+        res.forEach(res => {
+            count++; //increments url index for presentation
+            process.stdout.write(count + ". ");
+
+            if (res.status == 200) {
+                console.log(chalk.green("[GOOD] — " + res.url));            //good url output
+            } else if (res.status == 400 || res.status == 404) {
+                console.log(chalk.red("[BAD] — " + res.url));               //bad url output
+            } else if(res.status == -2){
+                console.log(chalk.grey("[TIMEOUT] — " + res.url));          //unknown url output
+            } else {
+                console.log(chalk.grey("[UNKNOWN] — " + res.url));          //unknown url output
+            }
+        })
+    };
+
+    const promises = urls.map(checkUrl);
+
+    Promise.all(promises)
+            .then(res => linkOutput(res))
+            .catch(err => console.error(err));
+
+
+    
 }
 
 linkCheck(options.link);
