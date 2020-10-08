@@ -2,24 +2,16 @@
 
 CLI tool to check links from a html file or url
 
-### Install
+## Install
 
-```
+```sh
 npm install -g <https://github.com/joelazwar/linkChek>
 ```
 
-### How to use
+## How to use
 
-```
+```sh
 linkChek -l [Filename or Webpage (Absolute) URL]
-```
-for check https urls
-```sh
-linkChek -l [Filename or Webpage (Absolute) URL] -o
-```
-for timeout, the default value is 120000 (ms)
-```sh
-linkChek -l [Filename or Webpage (Absolute) URL] -o -t 7000
 ```
 
 ![GIF PREVIEW](assets/filepreview.gif)
@@ -31,6 +23,22 @@ linkChek -l [Filename or Webpage (Absolute) URL] -o -t 7000
 * [GOOD] HTTP Response Code 200 - Success
 * [BAD] HTTP Response Code 400/404 - Bad Request/Not Found
 * [UNKNOWN] HTTP Response Code 3XX/5XX/etc. - Other Response (Redirect, Server Error, etc.)
+
+<br />
+
+## Options
+
+### To check if HTTP links work with HTTPS
+
+```sh
+linkChek -l [Filename or Webpage (Absolute) URL] -o
+```
+
+### To set a Timeout
+
+```sh
+linkChek -l [Filename or Webpage (Absolute) URL] -t 7000
+```
 
 ### Version Number
 
