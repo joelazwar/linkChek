@@ -40,7 +40,28 @@ linkChek -l [Filename or Webpage (Absolute) URL] -o
 linkChek -l [Filename or Webpage (Absolute) URL] -t 7000
 ```
 
+### Output JSON Option
+
+<br />
+
+Outputs JSON array consisting of url, and response status values
+
+```sh
+linkChek -l [Filename or Webpage (Absolute) URL] -j
+```
+
+### All/Good/Bad Flags
+
+* All - Outputs all results (Default)
+* Good - Outputs only [GOOD] (200) Results
+* Bad - Outputs only [BAD] (400/404) Results
+
+```sh
+linkChek -l [Filename or Webpage (Absolute) URL] --all/--good/--bad
+```
+
 ### Version Number
+
 
 ```
 linkChek -v
