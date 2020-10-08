@@ -27,6 +27,19 @@ const options = yargs
         describe: 'Provide ms for waiting for a request',
         type: 'number'
     })
+    .option("all", {
+        describe: 'Get all results (default)',
+        type: 'boolean',
+        default: true
+    })
+    .option("good", {
+        describe: 'Get only good results',
+        type: 'boolean'
+    })
+    .option("bad", {
+        describe: 'Get only bad results',
+        type: 'boolean'
+    })
     .alias('h', 'help')
     .help('help', 'Show usage information & exit')
     .alias('v', 'version')
@@ -92,20 +105,18 @@ function htmlVerify(urls) {
 
     function linkOutput(res) {
 
-        let count = 0;
+        let count = 1;
 
         res.forEach(res => {
-            count++; //increments url index for presentation
-            process.stdout.write(count + ". ");
-
-            if (res.status == 200) {
-                console.log(chalk.green("[GOOD] — " + res.url));            //good url output
-            } else if (res.status == 400 || res.status == 404) {
-                console.log(chalk.red("[BAD] — " + res.url));               //bad url output
-            } else if(res.status == -2){
-                console.log(chalk.grey("[TIMEOUT] — " + res.url));          //unknown url output
-            } else {
-                console.log(chalk.grey("[UNKNOWN] — " + res.url));          //unknown url output
+            
+            if (res.status == 200 && (options.all || options.good) && !options.bad) {
+                console.log(count++ + '. ' + chalk.green("[GOOD] — " + res.url));            //good url output
+            } else if (res.status == 400 || res.status == 404 && (options.all || options.bad) && !options.good) {
+                console.log(count++ + '. ' + chalk.red("[BAD] — " + res.url));               //bad url output
+            } else if(res.status == -2 && !options.good && !options.bad){
+                console.log(count++ + '. ' + chalk.grey("[TIMEOUT] — " + res.url));          //unknown url output
+            } else if(!options.good && !options.bad) {
+                console.log(count++ + '. ' + chalk.grey("[UNKNOWN] — " + res.url));          //unknown url output
             }
         })
     };
@@ -120,4 +131,8 @@ function htmlVerify(urls) {
     
 }
 
+if (options.good && options.bad)
+    return console.error("ERROR! Flags --good and --bad cannot be used at the same time");
+
 linkCheck(options.link);
+
