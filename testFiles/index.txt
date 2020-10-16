@@ -26,3 +26,5 @@
 <a href="http://feeds.feedburner.com/lsblakk_open-source">http://feeds.feedburner.com/lsblakk_open-source</a>
 <a href="http://88mishok.blogspot.com/feeds/posts/default">http://88mishok.blogspot.com/feeds/posts/default</a>
 <a href="http://sidsbr.blogspot.com/feeds/posts/default?alt=rss">http://sidsbr.blogspot.com/feeds/posts/default?alt=rss</a>
+<a href="https://www.google.com">https://www.google.com</a>
+<a href="https://www.senecacollege.ca">https://www.senecacollege.ca</a>

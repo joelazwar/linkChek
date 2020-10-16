@@ -5,6 +5,7 @@ const yargs = require("yargs");
 const fetch = require("node-fetch");
 const fs = require("fs");
 const { version } = require("../package.json");
+const readline = require("readline");
 
 const regEx = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,25}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g
 
@@ -31,7 +32,12 @@ const options = yargs
         alias: 'json',
         describe: 'Provide JSON output',
         type : 'boolean'
-    })
+    })  
+    .option("i", {
+        alias: 'ignore',
+        describe: 'Your ignore URLs file',
+        type: 'string'
+    }) 
     .option("all", {
         describe: 'Get all results (default)',
         type: 'boolean',
@@ -73,11 +79,38 @@ function linkCheck(link) {      //checks link/file for data in utf8/text
 
 }
 
+// function ignoreURL(file){
+ 
+//     return ignoreUrls;    
+// }
+
+
 function htmlVerify(urls) {
 
     urls = urls.match(regEx); //compile all links, using regex, into an Array
 
     urls = Array.from(new Set(urls)); //Eliminating duplicate links
+
+
+     if (options.ignore)      {     //ignore option by Jossie
+         
+         fs.readFile(options.ignore, 'utf8', (err, data) => {     //check if ignoreFile exists
+            if (err) {
+                console.error(err);
+                return;
+            }
+        })
+            const data = fs.readFileSync(options.ignore, 'utf8')         
+            const regex = /^((?!#).)*$/gm;          
+            let ignoreUrls = data.match(regex);     
+
+        for(let i=0; i<ignoreUrls.length;i++ ){             //remove specified ignored URLs from urls
+            urls = urls.filter(url => url !== ignoreUrls[i]);
+        }              
+            
+     }         
+
+        
 
     if (options.timeout){
         userTime = options.timeout
@@ -134,17 +167,21 @@ function htmlVerify(urls) {
         if(options.json)
             console.log (resJson);
             
-    };
+    };    
 
     const promises = urls.map(checkUrl);
 
     Promise.all(promises)
+         //  .then()
             .then(res => linkOutput(res))
             .catch(err => console.error(err));
 
 
     
 }
+
+
+    
 
 if (options.good && options.bad)
     return console.error("ERROR! Flags --good and --bad cannot be used at the same time");
