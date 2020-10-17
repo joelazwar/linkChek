@@ -31,13 +31,13 @@ const options = yargs
     .option("j", {
         alias: 'json',
         describe: 'Provide JSON output',
-        type : 'boolean'
-    })  
+        type: 'boolean'
+    })
     .option("i", {
         alias: 'ignore',
         describe: 'Your ignore URLs file',
         type: 'string'
-    }) 
+    })
     .option("all", {
         describe: 'Get all results (default)',
         type: 'boolean',
@@ -80,7 +80,7 @@ function linkCheck(link) {      //checks link/file for data in utf8/text
 }
 
 // function ignoreURL(file){
- 
+
 //     return ignoreUrls;    
 // }
 
@@ -92,27 +92,31 @@ function htmlVerify(urls) {
     urls = Array.from(new Set(urls)); //Eliminating duplicate links
 
 
-     if (options.ignore)      {     //ignore option by Jossie
-         
-         fs.readFile(options.ignore, 'utf8', (err, data) => {     //check if ignoreFile exists
-            if (err) {
-                console.error(err);
-                return;
-            }
-        })
-            const data = fs.readFileSync(options.ignore, 'utf8')         
-            const regex = /^((?!#).)*$/gm;          
-            let ignoreUrls = data.match(regex);     
-
-        for(let i=0; i<ignoreUrls.length;i++ ){             //remove specified ignored URLs from urls
-            urls = urls.filter(url => url !== ignoreUrls[i]);
-        }              
-            
-     }         
-
+    if (options.ignore) {     //ignore option by Jossie
+        let data;
+        try {
+            data = fs.readFileSync(options.ignore, 'utf8')
+        }
+        catch (err) {
+            throw ('!!Error Reading Ignore File!!');
+        }
+        const regex = /^((?!#).)*$/gm;
+        let ignoreUrls = data.match(regex);
         
+        if (ignoreUrls != null){
+            for (let i = 0; i < ignoreUrls.length; i++) {             //remove specified ignored URLs from urls
+                if (ignoreUrls[i] != '' && !ignoreUrls[i].startsWith('https://') && !ignoreUrls[i].startsWith('http://'))
+                throw ('INVALID FILE');
+            
+                urls = urls.
+                filter(url => url !== ignoreUrls[i]);
+            }
+        }   
+    }
 
-    if (options.timeout){
+
+
+    if (options.timeout) {
         userTime = options.timeout
     }
     else {
@@ -125,12 +129,12 @@ function htmlVerify(urls) {
             url = url.replace(/^http/, "https");
         }
     });
-    
+
     async function checkUrl(url) {
 
         try {
             const res = await fetch(url, { method: 'HEAD', timeout: userTime });     //sends HTTP head request to omit receiving the data from body
-            return {url, status: res.status} ;
+            return { url, status: res.status };
         } catch (err) {
             if (err.type == 'request-timeout') {
                 return { url, status: -2 };
@@ -148,40 +152,40 @@ function htmlVerify(urls) {
         let resJson = [];
 
         res.forEach(res => {
-            
+
             if (res.status == 200 && (options.all || options.good) && !options.bad) {
                 console.log(count++ + '. ' + chalk.green("[GOOD] — " + res.url));            //good url output
                 resJson.push(res);
             } else if (res.status == 400 || res.status == 404 && (options.all || options.bad) && !options.good) {
                 console.log(count++ + '. ' + chalk.red("[BAD] — " + res.url));               //bad url output
                 resJson.push(res);
-            } else if(res.status == -2 && !options.good && !options.bad){
+            } else if (res.status == -2 && !options.good && !options.bad) {
                 console.log(count++ + '. ' + chalk.grey("[TIMEOUT] — " + res.url));          //unknown url output
                 resJson.push(res);
-            } else if(!options.good && !options.bad) {
+            } else if (!options.good && !options.bad) {
                 console.log(count++ + '. ' + chalk.grey("[UNKNOWN] — " + res.url));          //unknown url output
                 resJson.push(res);
             }
         })
 
-        if(options.json)
-            console.log (resJson);
-            
-    };    
+        if (options.json)
+            console.log(resJson);
+
+    };
 
     const promises = urls.map(checkUrl);
 
     Promise.all(promises)
-         //  .then()
-            .then(res => linkOutput(res))
-            .catch(err => console.error(err));
+        //  .then()
+        .then(res => linkOutput(res))
+        .catch(err => console.error(err));
 
 
-    
+
 }
 
 
-    
+
 
 if (options.good && options.bad)
     return console.error("ERROR! Flags --good and --bad cannot be used at the same time");

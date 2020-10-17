@@ -5,5 +5,3 @@
 # https://www.google.com/ would match
 # https://www.google.ca would NOT match
 https://www.google.com
-# http://senecacollege.ca would not match
-http://senecacollege.ca
