@@ -58,6 +58,7 @@ export function htmlVerify(urls, options) {
     }
   
     function linkOutput(res) {
+
       let count = 1;
   
       let resJson = [];
@@ -83,7 +84,7 @@ export function htmlVerify(urls, options) {
   
     const promises = urls.map(checkUrl);
   
-    Promise.all(promises)
+     Promise.all(promises)
       .then((res) => linkOutput(res))
       .catch((err) => console.error(err));
   }

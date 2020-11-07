@@ -2,8 +2,7 @@ const yargs = require("yargs");
 const fetch = require("node-fetch");
 const fs = require("fs");
 const { version } = require("../package.json");
-const {htmlVerify} = require("./htmlVerify.js");
-
+const { htmlVerify } = require("./htmlVerify.js");
 
 const options = yargs
   .scriptName("linkChek")
@@ -47,38 +46,62 @@ const options = yargs
     describe: "Get only bad results",
     type: "boolean",
   })
+  .option("telescope", {
+    describe: "Check links from telescope posts",
+    type: "boolean",
+  })
   .alias("h", "help")
   .help("help", "Show usage information & exit")
   .alias("v", "version")
-  .version("version", "Show version number & exit", "linkChek " + version)
-  .argv;
+  .version("version", "Show version number & exit", "linkChek " + version).argv;
 
-function linkCheck(link) {  //checks link/file for data in utf8/text
+function linkCheck(link) {
+  //checks link/file for data in utf8/text
 
-  if (link.match(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,25}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g)) { //checks if the given string is a URL
+  if (options.telescope) {
+    fetch("http://localhost:3000/posts")
+      .then((res) => res.json())
+      .then(async (json) => {
+        for(let i = 0; i < 10; i++) {
+           await fetch("http://localhost:3000/posts/" + json[i].id)
+            .then((response) => response.text())
+            .then((data) => {
+              console.log('\nPost ' + json[i].id);
+              htmlVerify(data, options);
+            })
+            .catch((err) => console.log(err));
+        }
+      });
+  } else if (
+    link.match(
+      /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,25}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g
+    )
+  ) {
+    //checks if the given string is a URL
 
     fetch(link)
       .then((response) => response.text())
       .then((data) => htmlVerify(data, options))
       .catch((err) => console.log(err));
   } else {
-    fs.readFile(link,"utf8", (err, data) => {  //if not it is assumed to be a file
+    fs.readFile(link, "utf8", (err, data) => {
+      //if not it is assumed to be a file
 
-        if (err) {
-          console.error(err);
-          return;
-        }
+      if (err) {
+        console.error(err);
+        return;
+      }
 
-        htmlVerify(data, options);
-      });
+      htmlVerify(data, options);
+    });
   }
 }
 
-
-
 export function linkChecker() {
   if (options.good && options.bad)
-    return console.error("ERROR! Flags --good and --bad cannot be used at the same time");
+    return console.error(
+      "ERROR! Flags --good and --bad cannot be used at the same time"
+    );
 
   linkCheck(options.link);
 }
