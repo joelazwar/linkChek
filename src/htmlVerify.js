@@ -2,7 +2,7 @@ const chalk = require("chalk");
 const fetch = require("node-fetch");
 const fs = require("fs");
 
-export function htmlVerify(urls, options) {
+export function htmlVerify(urls, options, id = null) {
   urls = urls.match(
     /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,25}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g
   ); //compile all links, using regex, into an Array
@@ -64,6 +64,8 @@ export function htmlVerify(urls, options) {
   }
 
   function linkOutput(res) {
+    if (id) console.log("\nPost " + id);
+
     let count = 1;
 
     let resJson = [];

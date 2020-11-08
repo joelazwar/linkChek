@@ -46,6 +46,10 @@ const options = yargs
     describe: "Get only bad results",
     type: "boolean",
   })
+  .option("telescope", {
+    describe: "Check links from telescope posts",
+    type: "boolean",
+  })
   .alias("h", "help")
   .help("help", "Show usage information & exit")
   .alias("v", "version")
@@ -54,7 +58,20 @@ const options = yargs
 function linkCheck(link) {
   //checks link/file for data in utf8/text
 
-  if (
+  if (options.telescope) {
+    fetch("http://localhost:3000/posts?per_page=10")
+      .then((res) => res.json())
+      .then((json) => {
+        for (var post of json) {
+          fetch(`http://localhost:3000/posts/${post.id}`)
+            .then((response) => response.text())
+            .then((data) => {
+              htmlVerify(data, options, post.id);
+            })
+            .catch((err) => console.log(err));
+        }
+      });
+  } else if (
     link.match(
       /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,25}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g
     )
