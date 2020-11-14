@@ -1,20 +1,35 @@
 {
-  "name": "joels-link-chek",
-  "version": "0.0.1",
-  "description": "CLI link checker for html pages",
-  "main": "bin/linkChek",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Joel Azwar",
-  "license": "MIT",
-  "bin": {
-    "linkChek": "./bin/linkChek"
-  },
-  "dependencies": {
-    "chalk": "^2.4.2",
-    "esm": "^3.2.25",
-    "node-fetch": "^2.6.1",
-    "yargs": "^13.2.4"
-  }
+	"name": "joels-link-chek",
+	"version": "0.0.1",
+	"description": "CLI link checker for html pages",
+	"main": "bin/linkChek",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"eslint": "eslint --ignore-path .gitignore",
+		"eslint-fix": "eslint --fix --ignore-path .gitignore",
+		"prettier": "prettier --write .",
+		"prettier-check": "prettier --check ."
+	},
+	"husky": {
+		"hooks": {
+		  "pre-commit": "pretty-quick --staged"
+		}
+	  },
+	"author": "Joel Azwar",
+	"license": "MIT",
+	"bin": {
+		"linkChek": "./bin/linkChek"
+	},
+	"dependencies": {
+		"chalk": "^2.4.2",
+		"esm": "^3.2.25",
+		"node-fetch": "^2.6.1",
+		"yargs": "^13.2.4"
+	},
+	"devDependencies": {
+		"eslint": "^7.13.0",
+		"husky": "^4.3.0",
+		"prettier": "2.1.2",
+		"pretty-quick": "^3.1.0"
+	}
 }

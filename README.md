@@ -20,9 +20,9 @@ linkChek -l [Filename or Webpage (Absolute) URL]
 
 ### HTTP Responses
 
-* [GOOD] HTTP Response Code 200 - Success
-* [BAD] HTTP Response Code 400/404 - Bad Request/Not Found
-* [UNKNOWN] HTTP Response Code 3XX/5XX/etc. - Other Response (Redirect, Server Error, etc.)
+- [GOOD] HTTP Response Code 200 - Success
+- [BAD] HTTP Response Code 400/404 - Bad Request/Not Found
+- [UNKNOWN] HTTP Response Code 3XX/5XX/etc. - Other Response (Redirect, Server Error, etc.)
 
 <br />
 
@@ -52,16 +52,15 @@ linkChek -l [Filename or Webpage (Absolute) URL] -j
 
 ### All/Good/Bad Flags
 
-* All - Outputs all results (Default)
-* Good - Outputs only [GOOD] (200) Results
-* Bad - Outputs only [BAD] (400/404) Results
+- All - Outputs all results (Default)
+- Good - Outputs only [GOOD] (200) Results
+- Bad - Outputs only [BAD] (400/404) Results
 
 ```sh
 linkChek -l [Filename or Webpage (Absolute) URL] --all/--good/--bad
 ```
 
 ### Version Number
-
 
 ```
 linkChek -v
