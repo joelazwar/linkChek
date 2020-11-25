@@ -1,4 +1,4 @@
 #!/usr/bin/env node
 
-require('esm')(module);
-require("../src/index.js").linkChecker(process.argv);
+require("esm")(module);
+require("../src/index.js").main(process.argv);

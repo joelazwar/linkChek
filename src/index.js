@@ -53,7 +53,7 @@ const options = yargs
 	.alias("v", "version")
 	.version("version", "Show version number & exit", "linkChek " + version).argv;
 
-module.exports.linkChecker = function () {
+module.exports.main = function () {
 	if (options.good && options.bad)
 		return console.error("ERROR! Flags --good and --bad cannot be used at the same time");
 
