@@ -6,16 +6,15 @@ module.exports.linkCheck = function (link, options) {
 	//checks link/file for data in utf8/text
 
 	if (options.telescope) {
-		fetch("http://localhost:3000/posts?per_page=10")
+		fetch("http://telescope.cdot.systems/posts?per_page=10")
 			.then((res) => res.json())
-			.then((json) => {
+			.then(async (json) => {
 				for (var post of json) {
-					fetch(`http://localhost:3000/posts/${post.id}`)
+					let res = await fetch(`http://telescope.cdot.systems/posts/${post.id}`)
 						.then((response) => response.text())
-						.then((data) => {
-							htmlVerify(data, options, post.id);
-						})
 						.catch((err) => console.log(err));
+
+					htmlVerify(res, options, post.id);
 				}
 			});
 	} else if (
