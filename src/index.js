@@ -1,6 +1,6 @@
 const yargs = require("yargs");
 const { version } = require("../package.json");
-const { linkCheck } = require("./linkCheck.js");
+const { argIdentify } = require("./argIdentify.js");
 
 const options = yargs
 	.scriptName("linkChek")
@@ -57,5 +57,5 @@ module.exports.main = function () {
 	if (options.good && options.bad)
 		return console.error("ERROR! Flags --good and --bad cannot be used at the same time");
 
-	linkCheck(options.link, options);
+	argIdentify(options.link, options);
 };

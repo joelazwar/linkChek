@@ -4,17 +4,18 @@
 	"description": "CLI link checker for html pages",
 	"main": "bin/linkChek",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
 		"eslint": "eslint --ignore-path .gitignore",
 		"eslint-fix": "eslint --fix --ignore-path .gitignore",
 		"prettier": "prettier --write .",
-		"prettier-check": "prettier --check ."
+		"prettier-check": "prettier --check .",
+		"test": "jest --",
+		"coverage" : "jest --collectCoverage --"
 	},
 	"husky": {
 		"hooks": {
-		  "pre-commit": "pretty-quick --staged"
+			"pre-commit": "pretty-quick --staged"
 		}
-	  },
+	},
 	"author": "Joel Azwar",
 	"license": "MIT",
 	"bin": {
@@ -29,6 +30,7 @@
 	"devDependencies": {
 		"eslint": "^7.13.0",
 		"husky": "^4.3.0",
+		"jest": "^26.6.3",
 		"prettier": "2.1.2",
 		"pretty-quick": "^3.1.0"
 	}

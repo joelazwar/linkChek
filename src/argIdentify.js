@@ -1,8 +1,8 @@
 const fetch = require("node-fetch");
 const fs = require("fs");
-const { htmlVerify } = require("./htmlVerify.js");
+const { checkLinks } = require("./checkLinks.js");
 
-module.exports.linkCheck = function (link, options) {
+module.exports.argIdentify = function (link, options) {
 	//checks link/file for data in utf8/text
 
 	if (options.telescope) {
@@ -14,7 +14,7 @@ module.exports.linkCheck = function (link, options) {
 						.then((response) => response.text())
 						.catch((err) => console.log(err));
 
-					htmlVerify(res, options, post.id);
+					checkLinks(res, options, post.id);
 				}
 			});
 	} else if (
@@ -26,18 +26,14 @@ module.exports.linkCheck = function (link, options) {
 
 		fetch(link)
 			.then((response) => response.text())
-			.then((data) => htmlVerify(data, options))
+			.then((data) => checkLinks(data, options))
 			.catch((err) => console.log(err));
 	} else {
-		fs.readFile(link, "utf8", (err, data) => {
-			//if not it is assumed to be a file
-
-			if (err) {
-				console.error(err);
-				return;
-			}
-
-			htmlVerify(data, options);
-		});
+		try {
+			const data = fs.readFileSync(link, "utf8");
+			checkLinks(data, options);
+		} catch (err) {
+			throw new Error("File not found");
+		}
 	}
 };
