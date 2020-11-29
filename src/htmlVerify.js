@@ -1,6 +1,7 @@
 const { checkUrl } = require("./checkUrl.js");
 const { output } = require("./output.js");
 const { ignoreUrl } = require("./ignoreUrl.js");
+const { httpsOption } = require("./httpsOption.js");
 
 module.exports.htmlVerify = function (urls, options, id = null) {
 	urls = urls.match(
@@ -13,21 +14,11 @@ module.exports.htmlVerify = function (urls, options, id = null) {
 		urls = ignoreUrl(urls, options.ignore);
 	}
 
-	let userTime = 0;
-
-	if (options.timeout) {
-		userTime = options.timeout;
+	if (options.option) {
+		urls = httpsOption(urls);
 	}
 
-	urls.forEach((url) => {
-		//iterates through url Array
-		const isHttps = options.option;
-		if (isHttps && !url.startsWith("https")) {
-			url = url.replace(/^http/, "https");
-		}
-	});
-
-	const promises = checkUrl(urls, userTime);
+	const promises = checkUrl(urls, options.timeout);
 
 	Promise.all(promises)
 		.then((res) => output(res, options, id))
