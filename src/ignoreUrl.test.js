@@ -21,22 +21,22 @@ describe("Ignore File Option Tests", () => {
 		fs.__setMockFiles(MOCK_FILE_INFO);
 	});
 
-	test("Ignore google links", async () => {
+	test("Ignore google links", () => {
 		expect(ignoreUrl(urls, "googleIgnore")).toEqual([
 			"https://www.example.com/",
 			"https://www.senecacollege.com/",
 		]);
 	});
 
-	test("Empty ignore file, nothing ignored", async () => {
+	test("Empty ignore file, nothing ignored", () => {
 		expect(ignoreUrl(urls, "emptyIgnore")).toEqual(urls);
 	});
 
-	test("Invalid Ignore file, throws error", async () => {
+	test("Invalid Ignore file, throws error", () => {
 		expect(() => ignoreUrl(urls, "invalidIgnore")).toThrow("Invalid Ignore File");
 	});
 
-	test("Error Reading Ignore File", async () => {
+	test("Error Reading Ignore File", () => {
 		expect(() => ignoreUrl(urls, "errorFile")).toThrow("!!Error Reading Ignore File!!");
 	});
 });
