@@ -12,8 +12,9 @@ module.exports.output = function (res, options, id = null) {
 			console.log(count++ + ". " + chalk.green("[GOOD] — " + res.url)); //good url output
 			resJson.push(res);
 		} else if (
-			res.status == 400 ||
-			(res.status == 404 && (options.all || options.bad) && !options.good)
+			(res.status == 400 || res.status == 404) &&
+			(options.all || options.bad) &&
+			!options.good
 		) {
 			console.log(count++ + ". " + chalk.red("[BAD] — " + res.url)); //bad url output
 			resJson.push(res);
