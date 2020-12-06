@@ -5,7 +5,11 @@ CLI tool to check links from a html file or url
 ## Install
 
 ```sh
-npm install -g <https://github.com/joelazwar/linkChek>
+npm install -g link-chek
+```
+
+```sh
+npx link-chek
 ```
 
 ## How to use
