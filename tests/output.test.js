@@ -1,4 +1,4 @@
-const { output } = require("./output.js");
+const { output } = require("../src/output.js");
 const chalk = require("chalk");
 
 describe("Ignore File Option Tests", () => {

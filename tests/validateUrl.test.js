@@ -1,7 +1,7 @@
 jest.mock("node-fetch");
 
 const fetch = require("node-fetch");
-const { validateUrl } = require("./validateUrl.js");
+const { validateUrl } = require("../src/validateUrl.js");
 
 describe("200 and 404 Responses", () => {
 	beforeEach(() => {

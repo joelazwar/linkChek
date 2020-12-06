@@ -1,4 +1,4 @@
-const { httpsOption } = require("./httpsOption.js");
+const { httpsOption } = require("../src/httpsOption.js");
 
 describe("Http -> Https option", () => {
 	test("Test array of urls", () => {

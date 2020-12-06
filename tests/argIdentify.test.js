@@ -1,4 +1,4 @@
-const { argIdentify } = require("./argIdentify");
+const { argIdentify } = require("../src/argIdentify");
 
 describe("err", () => {
 	test("Test invalid file passed", () => {

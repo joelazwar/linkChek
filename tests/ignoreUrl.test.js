@@ -1,7 +1,7 @@
 jest.mock("fs");
 
 const fs = require("fs");
-const { ignoreUrl } = require("./ignoreUrl.js");
+const { ignoreUrl } = require("../src/ignoreUrl.js");
 
 describe("Ignore File Option Tests", () => {
 	const urls = [
